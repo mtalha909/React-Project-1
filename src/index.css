@@ -1,0 +1,122 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ==========================================================
+   GLOBAL, REUSED PIECES
+========================================================== */
+
+html {
+  scroll-behavior: smooth;
+}
+
+/* ambient full-page gradient mesh — replaces the flat paper color
+   with soft, low-opacity color washes that stay put while you
+   scroll (background-attachment: fixed), so the whole page reads
+   as one continuous atmosphere instead of separate flat sections */
+body {
+  line-height: 1.65;
+  background-color: #F3F5EF;
+  background-image:
+    radial-gradient(640px circle at 12% -8%, rgba(27, 122, 91, 0.10), transparent 60%),
+    radial-gradient(560px circle at 88% 12%, rgba(255, 184, 0, 0.09), transparent 55%),
+    radial-gradient(720px circle at 50% 55%, rgba(27, 122, 91, 0.06), transparent 60%),
+    radial-gradient(480px circle at 92% 92%, rgba(255, 184, 0, 0.07), transparent 55%),
+    radial-gradient(520px circle at 5% 85%, rgba(27, 122, 91, 0.07), transparent 55%);
+  background-attachment: fixed;
+}
+
+/* fine film-grain texture layered over the whole page for a less
+   "flat vector" feel — extremely subtle (4% opacity), blended so it
+   only affects the color beneath it rather than sitting on top */
+.grain-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 30;
+  pointer-events: none;
+  opacity: 0.035;
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+p {
+  line-height: 1.7;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+textarea:focus-visible {
+  outline: 2px solid #1B7A5B;
+  outline-offset: 2px;
+}
+
+/* subtle dot-grid texture, used behind hero/section backgrounds */
+.bg-dot-grid {
+  background-image: radial-gradient(#10151f14 1px, transparent 1px);
+  background-size: 22px 22px;
+  -webkit-mask-image: radial-gradient(ellipse 90% 80% at 50% 40%, black 40%, transparent 90%);
+  mask-image: radial-gradient(ellipse 90% 80% at 50% 40%, black 40%, transparent 90%);
+}
+
+/* scroll-reveal utility, toggled by the useReveal hook */
+.reveal {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1), transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.reveal.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* blinking cursor used in the Hero code-editor mock */
+.type-cursor {
+  display: inline-block;
+  width: 2px;
+  margin-left: 2px;
+  background: #ffb800;
+  animation: blink 1s step-end infinite;
+}
+@keyframes blink { 50% { opacity: 0; } }
+
+/* gentle vertical float, used for hero badges and blobs */
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+.animate-float { animation: float 5s ease-in-out infinite; }
+.animate-float-slow { animation: float 8s ease-in-out infinite; }
+
+/* slower, softer ping for the logo dot */
+@keyframes ping-slow {
+  0% { transform: scale(1); opacity: 0.75; }
+  75%, 100% { transform: scale(2.2); opacity: 0; }
+}
+.animate-ping-slow { animation: ping-slow 2.5s cubic-bezier(0, 0, 0.2, 1) infinite; }
+
+/* fade+lift used when the testimonial slide changes */
+@keyframes fadeSlide {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.animate-fade-slide { animation: fadeSlide 0.45s cubic-bezier(0.16, 1, 0.3, 1); }
+
+/* soft ambient gradient blob, used behind the hero code panel */
+.gradient-blob {
+  background: radial-gradient(closest-side, rgba(27, 122, 91, 0.35), transparent);
+  filter: blur(40px);
+}
+.gradient-blob-accent {
+  background: radial-gradient(closest-side, rgba(255, 184, 0, 0.3), transparent);
+  filter: blur(40px);
+}
